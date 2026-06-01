@@ -1,11 +1,13 @@
 import random
+import numpy as np
 
 # Define the list of names
 names = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hannah", "Ivan", "Jack", "Katie", "Liam", "Mia", "Nathan", "Olivia", "Peter", "Quinn", "Rachel", "Sam", "Tina", "Ursula", "Victor", "Wendy", "Xavier", "Yvonne", "Zach"]
 
 # Define dependencies: keys can only be picked if the corresponding value has been picked.
 # For example, "Charlie" can only be picked if "Alice" is picked.
-dependencies = {
+# Every dependency has to be defined only once, a second reverse definiton is not required.
+rawdependencies = {
     "Alice": "Charlie",
     "Charlie": "Alice",
     "David": "Bob",
@@ -13,6 +15,13 @@ dependencies = {
     "Grace": "Eve",
     "Eve": "Grace"
 }
+
+dependencies = {}
+# Add the reverse dependencies to the dict
+for key, val in rawdependencies.items():
+    dependencies[key] = val
+    dependencies[val] = key
+#print(dependencies, "\n")
 
 def pick_names(names, dependencies, N, couple_probability=0.5):
     # Initialize an empty set to store the selected names
@@ -35,7 +44,7 @@ def pick_names(names, dependencies, N, couple_probability=0.5):
                 # Add the randomly chosen name to the selected names
                 selected_names.add(name)
             else:
-                
+    
                 # Skip this name and continue to the next iteration
                 continue
         else:
@@ -48,7 +57,13 @@ def pick_names(names, dependencies, N, couple_probability=0.5):
 N = 10
 couple_probability = 0.5 # 0: never allow couples, 1: always allow couples, 0.5: allow couples with 50% probability
 picked_names = pick_names(names, dependencies, N, couple_probability)
-print("Randomly picked names:", picked_names)
+print("Randomly picked names:", picked_names, "\n")
+
+# Export the picked names
+np.savetxt("export.csv",
+        picked_names,
+        delimiter =", ",
+        fmt ='% s')
 
 # TESTING THE SELECTION FREQUENCY
 import matplotlib.pyplot as plt
