@@ -9,11 +9,8 @@ names = ["Alice", "Bob", "Charlie", "David", "Eve", "Frank", "Grace", "Hannah", 
 # Every dependency has to be defined only once, a second reverse definiton is not required.
 rawdependencies = {
     "Alice": "Charlie",
-    "Charlie": "Alice",
     "David": "Bob",
-    "Bob": "David",
     "Grace": "Eve",
-    "Eve": "Grace"
 }
 
 dependencies = {}
